@@ -141,4 +141,44 @@ public class ContactUs_Steps {
         String randomEmailAddress = faker.internet().emailAddress();
         browserManager.page.getByPlaceholder("Email Address").fill(randomEmailAddress);
     }
+
+    @When("I type a first name {string}")
+    public void i_type_a_first_name(String firstName) {
+        browserManager.page.getByPlaceholder("First Name").fill(firstName);
+    }
+
+    @When("I type a last name {string}")
+    public void i_type_a_last_name(String lastName) {
+        browserManager.page.getByPlaceholder("Last Name").fill(lastName);
+    }
+    @When("I enter a email address {string}")
+    public void i_enter_a_email_address(String emailAddress) {
+        browserManager.page.getByPlaceholder("Email Address").fill(emailAddress);
+
+    }
+    @When("I type a comment {string}")
+    public void i_type_a_comment(String commentText) {
+        browserManager.page.getByPlaceholder("Comments").fill(commentText);
+    }
+    @Then("I should be presented with a header text {string}")
+    public void i_should_be_presented_with_a_header(String header) {
+        //code here that turns the phrase above into concrete actions
+        System.out.println("Unlock unsuccessful assertion test when 'Submit' button has opened normal unsuccessfull message.");
+    }
+        /*
+        //wait for the <body> element
+        browserManager.page.waitForSelector("body");
+
+        //Locator of the body element
+        Locator bodyElement = browserManager.page.locator("body");
+
+        // Extract text from the element
+        String bodyText = bodyElement.textContent();
+
+        // Assert that the body text matches the expected pattern
+        Pattern pattern = Pattern.compile("Error: (all fields are required|Invalid email address)");
+        Matcher matcher = pattern.matcher(bodyText);
+        Assert.asser
+         tTrue(matcher.find(), "The body text does not match the expected error message. Found Text: " + bodyText);
+        */
 }
