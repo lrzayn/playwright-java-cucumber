@@ -1,24 +1,24 @@
 Feature: WebdriverUniversity.com - Contact Us Page
 
-#  Scenario: Valid Contact Us Form Submission
-#    Given I navigate to the webdriveruniversity homepage
-#    When I click on the contact us button
-#    And I type a first name
-#    And I type a last name
-#    And I enter email address
-#    And I type a comment
-#    And I click on the submit button
-#    Then I should be presented with a successful contact us submission message
-#
-#  Scenario: Valid Contact Us Form Submission
-#    Given I navigate to the webdriveruniversity homepage
-#    When I click on the contact us button
-#    And I type a first name
-#    And I type a last name
-#    #And I enter email address
-#    And I type a comment
-#    And I click on the submit button
-#    Then I should be presented with an unsuccessful contact us submission message
+  Scenario: Valid Contact Us Form Submission
+    Given I navigate to the webdriveruniversity homepage
+    When I click on the contact us button
+    And I type a first name
+    And I type a last name
+    And I enter email address
+    And I type a comment
+    And I click on the submit button
+    Then I should be presented with a successful contact us submission message
+
+  Scenario: Valid Contact Us Form Submission
+    Given I navigate to the webdriveruniversity homepage
+    When I click on the contact us button
+    And I type a first name
+    And I type a last name
+    #And I enter email address
+    And I type a comment
+    And I click on the submit button
+    Then I should be presented with an unsuccessful contact us submission message
 
     #Regular expression input
   Scenario: Valid Contact Us Form Submission
@@ -28,6 +28,17 @@ Feature: WebdriverUniversity.com - Contact Us Page
     And I type a specific last name "Bonson"
     And I enter a specific email address "edvard.bonson@sample.com"
     And I type a specific comment "Hello EB" and number 2 within comment input field
+    And I click on the submit button
+    Then I should be presented with a successful contact us submission message
+
+    #Random input
+  Scenario: Valid Contact Us Form Submission - Using Random Data
+    Given I navigate to the webdriveruniversity homepage
+    When I click on the contact us button
+    And I type a random first name
+    And I type a random last name
+    And I enter a random email address
+    And I type a comment
     And I click on the submit button
     Then I should be presented with a successful contact us submission message
 

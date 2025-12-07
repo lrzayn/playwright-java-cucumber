@@ -3,6 +3,7 @@ package step_definition;
 import browser.BrowserManager;
 import com.microsoft.playwright.*;
 import io.cucumber.java.en.*;
+import net.datafaker.Faker;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ public class ContactUs_Steps {
     Map<String, String> headers = new HashMap<>();
 
     public BrowserManager browserManager;
+    private final Faker faker = new Faker();
 
     public ContactUs_Steps(BrowserManager browserManager){
         this.browserManager = browserManager;
@@ -120,5 +122,23 @@ public class ContactUs_Steps {
     public void i_type_a_specific_comment_and_number_within_comment_input_field(String word, Integer number) {
         //throw new io.cucumber.java.PendingException();
         browserManager.page.getByPlaceholder("Comments").fill(word + " " + number);
+    }
+
+    @When("I type a random first name")
+    public void i_type_a_random_first_name() {
+        String randomFirstName = faker.name().firstName();
+        browserManager.page.getByPlaceholder("First Name").fill(randomFirstName);
+        // Write code here that turns the phrase above into concrete actions
+        //throw new io.cucumber.java.PendingException();
+    }
+    @When("I type a random last name")
+    public void i_type_a_random_last_name() {
+        String randomLastName = faker.name().lastName();
+        browserManager.page.getByPlaceholder("Last Name").fill(randomLastName);
+    }
+    @When("I enter a random email address")
+    public void i_enter_a_random_email_address() {
+        String randomEmailAddress = faker.internet().emailAddress();
+        browserManager.page.getByPlaceholder("Email Address").fill(randomEmailAddress);
     }
 }
