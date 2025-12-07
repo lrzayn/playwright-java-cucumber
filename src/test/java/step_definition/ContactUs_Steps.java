@@ -94,27 +94,31 @@ public class ContactUs_Steps {
         // Assert that the body text matches the expected pattern
         Pattern pattern = Pattern.compile("Error: (all fields are required|Invalid email address)");
         Matcher matcher = pattern.matcher(bodyText);
-        Assert.assertTrue(matcher.find(), "The body text does not match the expected error message. Found Text: " + bodyText);
+        Assert.asser
+         tTrue(matcher.find(), "The body text does not match the expected error message. Found Text: " + bodyText);
         */
 
-    @When("I type a specific first name {string}")
-    public void i_type_a_specific_first_name(String string) {
+    //Cucumber expressions
+    @And("I type a specific first name {string}")
+    public void i_type_a_specific_first_name(String firstName) {
         // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        //throw new io.cucumber.java.PendingException();
+        browserManager.page.getByPlaceholder("First Name").fill(firstName);
     }
     @When("I type a specific last name {string}")
-    public void i_type_a_specific_last_name(String string) {
+    public void i_type_a_specific_last_name(String lastName) {
         // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        //throw new io.cucumber.java.PendingException();
+        browserManager.page.getByPlaceholder("Last Name").fill(lastName);
     }
     @When("I enter a specific email address {string}")
-    public void i_enter_a_specific_email_address(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void i_enter_a_specific_email_address(String emailAddress) {
+        //throw new io.cucumber.java.PendingException();
+        browserManager.page.getByPlaceholder("Email Address").fill(emailAddress);
     }
     @When("I type a specific comment {string} and number {int} within comment input field")
-    public void i_type_a_specific_comment_and_number_within_comment_input_field(String string, Integer int1) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void i_type_a_specific_comment_and_number_within_comment_input_field(String word, Integer number) {
+        //throw new io.cucumber.java.PendingException();
+        browserManager.page.getByPlaceholder("Comments").fill(word + " " + number);
     }
 }
