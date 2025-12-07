@@ -6,10 +6,12 @@ import io.cucumber.java.en.*;
 import net.datafaker.Faker;
 
 import java.awt.*;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+import static org.testng.Assert.assertTrue;
 
 public class ContactUs_Steps {
 
@@ -164,8 +166,7 @@ public class ContactUs_Steps {
     public void i_should_be_presented_with_a_header(String header) {
         //code here that turns the phrase above into concrete actions
         System.out.println("Unlock unsuccessful assertion test when 'Submit' button has opened normal unsuccessfull message.");
-    }
-        /*
+    /*
         //wait for the <body> element
         browserManager.page.waitForSelector("body");
 
@@ -181,4 +182,34 @@ public class ContactUs_Steps {
         Assert.asser
          tTrue(matcher.find(), "The body text does not match the expected error message. Found Text: " + bodyText);
         */
+
+        /* //Another realization
+
+        //wait for the <body> element
+        browserManager.page.waitForSelector("//h1 | //body");
+
+        //Get all element's inner text
+        List<String> texts  = browserManager.page.locator("//h1 | //body").allInnerTexts();
+
+        //store the exist text
+        String existText = "";
+
+        //Check if any of the texts include the expected header text
+        boolean found = false;
+        for (String text: texts){
+            if(text.contains(header)){
+                existText = text;
+                found = true;
+                break;
+            }
+            else {
+                existText = text;
+            }
+        }
+
+        //Perform an assertion
+        assertTrue(found, "The element does not contain the expected message. It's: " + existText);
+         */
+    }
+
 }
