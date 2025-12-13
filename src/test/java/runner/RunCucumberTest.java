@@ -7,10 +7,10 @@ import io.cucumber.testng.CucumberOptions;
         //features = "src/test/resources/features/Login.feature",
         features = "src/test/resources/features",
         glue = "step_definition",
-        tags = "@contact-us and not @ignore",
-        //tags = "@regression"
-        //tags = "@login"
-        //tags = "@smoke"
+        //tags = "@contact-us and not @ignore",
+        //tags = "@regression",
+        tags = "@login and not @ignore",
+        //tags = "@smoke",
         plugin = {"pretty", "json:target/cucumber.json", "html:target/cucumber-report.html"}
 )
 
