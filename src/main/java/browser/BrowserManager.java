@@ -13,6 +13,13 @@ public class BrowserManager {
     public BrowserContext context; // is the isolated browser session
     public Browser browser; //represent the browser instance
 
+    public byte[] takeScreenshots(){
+        if(page != null){
+            return page.screenshot();
+        }
+        return new byte[0];
+    }
+
     public Map<String, String> headers = new HashMap<>();
 
     public void setUp(){
