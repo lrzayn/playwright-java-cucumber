@@ -25,9 +25,9 @@ import java.util.logging.Logger;
         features = "src/test/resources/features",
         glue = "step_definition",
         //tags = "@contact-us and not @ignore",
-        tags = "@regression and not @ignore",
+        //tags = "@regression and not @ignore",
         //tags = "@login and not @ignore",
-        //tags = "@smoke",
+        tags = "@smoke",
         plugin = {"pretty", "json:target/cucumber.json", "html:target/cucumber-report.html"}
 )
 
