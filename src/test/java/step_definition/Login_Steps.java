@@ -18,23 +18,23 @@ public class Login_Steps {
     @And("I type a username {word}")
     public void i_type_a_username(String username) throws InterruptedException {
         Thread.sleep(100);
-        browserManager.page.getByPlaceholder("Username").fill(username);
+        browserManager.getPage().getByPlaceholder("Username").fill(username);
     }
 
     @And("I type a password {word}")
     public void i_type_a_password(String password) throws InterruptedException {
         //browserManager.page.pause(100);
         Thread.sleep(100);
-        browserManager.page.getByPlaceholder("Password").fill(password);
+        browserManager.getPage().getByPlaceholder("Password").fill(password);
     }
 
     @And("I click on the login button")
     public void i_click_on_the_login_button() throws InterruptedException {
-        browserManager.page.onceDialog(dialog -> {
+        browserManager.getPage().onceDialog(dialog -> {
             alertText = dialog.message();
             dialog.accept();
         });
-        Locator loginButton = browserManager.page.locator("#login-button");
+        Locator loginButton = browserManager.getPage().locator("#login-button");
         loginButton.hover();
         loginButton.click(new Locator.ClickOptions().setForce(true));
         Thread.sleep(100);

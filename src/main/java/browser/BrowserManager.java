@@ -17,13 +17,16 @@ import java.util.logging.Logger;
 
 public class BrowserManager {
 
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(BrowserManager.class);
-    public Playwright playwright; //use to create an instance of Chrome, Firefox etc.
-    public Page page; //is the single tab in the browser
-    public BrowserContext context; // is the isolated browser session
-    public Browser browser; //represent the browser instance
+    // A thread local variable for each thread that don't share the data to other threads.
+    private static final ThreadLocal<Playwright> playwright = new ThreadLocal<>(); //used to create an instance of the Chromium, Firefox browser etc.
+    private static final ThreadLocal<Browser> browser = new ThreadLocal<>(); //represents the browser instance.
+    private static final ThreadLocal<BrowserContext> context = new ThreadLocal<>(); //is the isolated browser session.
+    private static final ThreadLocal<Page> page = new ThreadLocal<>(); //is the single tab or window in the browser.
+
     public Properties properties;
     private static final Logger logger = Logger.getLogger(BrowserManager.class.getName());
+
+    public Map<String, String> headers = new HashMap<>();
 
     public  BrowserManager(){
         properties = new Properties();
@@ -34,27 +37,68 @@ public class BrowserManager {
                         "config.properties").toString()));
         try(InputStream input = Files.newInputStream(configPath)){
             properties.load(input);
-
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Failed to load properties file.", e);
         }
     }
 
+    public Page getPage() {
+        return page.get();
+    }
+
+    public void setPage(Page newPage) {
+        page.set(newPage);
+    }
+
+    public BrowserContext getContext() {
+        return context.get();
+    }
+
     public byte[] takeScreenshots(){
-        if(page != null){
-            return page.screenshot();
+        if(page.get() != null){
+            return page.get().screenshot();
         }
         return new byte[0];
     }
 
-    public Map<String, String> headers = new HashMap<>();
-
     public void setUp(){
-        System.out.println("Setting up Playwright...");
+        logger.info("Setting up Playwright...");
+        //System.out.println("Setting up Playwright...");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = (int) screenSize.getWidth();
         int height = (int) screenSize.getHeight();
 
+        try {
+            playwright.set(Playwright.create());
+
+            String browserType = properties.getProperty("browser", "chromium");
+
+            switch (browserType.toLowerCase()) {
+                case "chromium":
+                    browser.set(playwright.get().chromium().launch(new BrowserType.LaunchOptions().setHeadless(false)));
+                    context.set(context.get().browser().newContext(new Browser.NewContextOptions().setViewportSize(width, height)));
+                    headers.put("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36");
+                    break;
+                case "firefox":
+                    browser.set(playwright.get().firefox().launch(new BrowserType.LaunchOptions().setHeadless(false)));
+                    break;
+                default:
+                    logger.warning("Unsupported browser type: " + browserType + ". Defaulting to chromium.");
+                    browser.set(playwright.get().chromium().launch(new BrowserType.LaunchOptions().setHeadless(false)));
+                    context.set(context.get().browser().newContext(new Browser.NewContextOptions().setViewportSize(width, height)));
+                    //context = browser.newContext(new Browser.NewContextOptions().setViewportSize(width, height));
+                    headers.put("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36");
+
+                    break;
+            }
+            context.set(browser.get().newContext(new Browser.NewContextOptions().setViewportSize(width, height)));
+            page.set(context.get().newPage());
+            logger.info("Playwright setup complete!");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Failed to setup Playwright! ", e);
+        }
+
+        /*
         //initialize Playwright and launch browser
         playwright = Playwright.create();
 
@@ -80,6 +124,7 @@ public class BrowserManager {
         context = browser.newContext(new Browser.NewContextOptions().setViewportSize(width, height));
         page = context.newPage();
         logger.info("Playwright setup complete!");
+        */
         /*
         browser = playwright.chromium().launch((new BrowserType.LaunchOptions().setHeadless(false)));
         context = browser.newContext(new Browser.NewContextOptions().setViewportSize(width, height));
@@ -92,12 +137,19 @@ public class BrowserManager {
     }
 
     public void tearDown(){
-        //System.out.println("Tearing down Plaiwright...");
-        logger.info("Tearing down Plaiwright...");
-        if(page != null)page.close();
-        if(browser != null)browser.close();
-        if(playwright != null)playwright.close();
-        //System.out.println("Playwright teardown complete.");
-        logger.info("Playwright teardown complete.");
+
+        try{
+            //System.out.println("Tearing down Plaiwright...");
+            logger.info("Tearing down Plaiwright...");
+            if(page.get() != null) page.get().close();
+            if(context.get() != null) context.get().close();
+            if(browser.get() != null) browser.get().close();
+            if(playwright.get() != null)playwright.get().close();
+            //System.out.println("Playwright teardown complete.");
+            logger.info("Playwright teardown complete.");
+        }
+        catch (Exception e){
+            logger.log(Level.SEVERE, "Failed to close Playwright resources! ", e);
+        }
     }
 }

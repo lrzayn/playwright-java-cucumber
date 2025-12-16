@@ -22,20 +22,20 @@ public class Homepage_Steps {
     @Given("I navigate to the webdriveruniversity homepage")
     public void i_navigate_to_the_webdriveruniversity_homepage() {
         //https://www.webdriveruniversity.com/
-        browserManager.page.navigate("https://www.webdriveruniversity.com/").headers();
+        browserManager.getPage().navigate("https://www.webdriveruniversity.com/").headers();
     }
 
     @When("I click on the contact us button")
     public void i_click_on_the_contact_us_button() {
         //page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("CONTACT US Contact Us Form")).click();
         /*
-        this.browserManager.page = browserManager.context.waitForPage(() -> {
-            browserManager.page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("CONTACT US Contact Us Form")).click();
-        });
-        this.browserManager.page.bringToFront();
+        this.browserManager.setPage(browserManager.getContext().waitForPage(() -> {
+            browserManager.getPage().getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("CONTACT US Contact Us Form")).click();
+        }));
+        this.browserManager.getPage().bringToFront();
         */
         //browserManager.page.setExtraHTTPHeaders(headers);
-        this.browserManager.page.navigate("https://www.webdriveruniversity.com/Contact-Us/contactus.html");
+        this.browserManager.getPage().navigate("https://www.webdriveruniversity.com/Contact-Us/contactus.html");
         //browserManager.page.pause();
 
 
@@ -43,13 +43,13 @@ public class Homepage_Steps {
     @When("I click on the login portal button")
     public void i_click_on_the_login_portal_button() {
         /*
-        browserManager.page = browserManager.context.waitForPage(() -> {
-            browserManager.page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("LOGIN PORTAL Login Portal")).click();
+        this.browserManager.setPage(browserManager.getContext().waitForPage(() -> {
+            browserManager.getPage().getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("LOGIN PORTAL Login Portal")).click();
         });
-        browserManager.page.bringToFront();
+        this.browserManager.getPage().bringToFront();
         */
         //browserManager.page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("LOGIN PORTAL Login Portal")).click();
 
-        this.browserManager.page.navigate("https://www.webdriveruniversity.com/Login-Portal/index.html");
+        this.browserManager.getPage().navigate("https://www.webdriveruniversity.com/Login-Portal/index.html");
     }
 }
